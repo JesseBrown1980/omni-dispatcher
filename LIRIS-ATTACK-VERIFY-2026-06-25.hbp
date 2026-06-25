@@ -1,0 +1,12 @@
+LIRISVERIFY|date=2026-06-25|repo=JesseBrown1980/omni-dispatcher|vantage=liris|json=0
+TARGET|acer_publish_commit=f0acdb2|liris_hardening_commit=f5f1b74|branch=main|json=0
+MEASURED_LIRIS|real_code_files=omnidispatcher.mjs,worker.mjs,routes.mjs,validator.mjs,port-pool.mjs,fedenvRejectShim.mjs,fedenvRejectShim.test.mjs,package.json|statements_only=false|json=0
+MEASURED_LIRIS|hardening=.gitattributes,smoke.test.mjs,tools/verify-sha256.mjs,README_clone_safe_checks|dispatcher_logic_changed=false|json=0
+CHECK|command=npm_run_check|status=PASS|json=0
+CHECK|command=npm_test|status=PASS|tests=5|pass=5|fail=0|json=0
+CHECK|command=npm_run_verify_sha256|status=PASS|json=0
+BOUNDARY|fedenvRejectShim.test.mjs=ACER_HARNESS_DEPENDENT|clone_safe_test=smoke.test.mjs|json=0
+BOUNDARY|private_manifest=EXCLUDED_BY_DESIGN|preflight_on_clone=FAIL_CLOSED_OR_WARN_EXPECTED|json=0
+BOUNDARY|admin_override=SOFT_STRUCTURAL_GATE_NOT_SECRET|runtime_authority=loopback_plus_cosign_vote_quorum|json=0
+BOUNDARY|node_engine=package_targets_20.x|liris_verified_under_node_24.13.1|acer_runtime_parity=ACER_OWNED|json=0
+VERDICT|status=ACCEPT_WITH_BOUNDARIES|claim=real_code_plus_clone_safe_verification_published|live_cutover=false|host8_retirement=false|json=0

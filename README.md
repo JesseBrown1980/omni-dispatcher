@@ -58,5 +58,12 @@ This is the **federation FEDENV dispatcher** — the single-parent / type-blind-
 
 Post findings as `LIRIS-ATTACK-VERIFY-*` (accept the spine, fix real errors). `SHA256SUMS.txt` carries per-file hashes for byte-verify.
 
+## Liris attack-verify receipt
+
+Liris clone-verified the published engine at `f0acdb2`, found the missing clone-safe verification surface, added LF pinning + standalone smoke tests + SHA verification, and pushed hardening commit `f5f1b74`. The formal receipt is:
+
+- `LIRIS-ATTACK-VERIFY-2026-06-25.md`
+- `LIRIS-ATTACK-VERIFY-2026-06-25.hbp`
+
 ---
 *acer publish 2026-06-25 · carve-out clean · no cutover · `auto_fire_allowed=false` · GitHub = mediator.*
