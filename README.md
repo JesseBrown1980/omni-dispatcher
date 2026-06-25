@@ -19,6 +19,20 @@ The **omnidispatcher** is the federation's *single-parent dispatcher*: one proce
 
 **Boot:** `node omnidispatcher.mjs --boot [--workers=N]` · **Preflight:** `node omnidispatcher.mjs --preflight`
 
+## Standalone verification from a clone
+
+```bash
+npm run check
+npm test
+npm run verify:sha256
+```
+
+- `npm run check` syntax-checks every published module.
+- `npm test` runs the Liris standalone smoke tests for validator rejection paths, port-pool allocation/eviction, route-table stubs, response envelopes, and the HBP reject tee without requiring Acer-private harness files.
+- `npm run verify:sha256` checks `SHA256SUMS.txt` against the working-tree bytes.
+
+The repo pins LF line endings in `.gitattributes`; without that, Windows checkout rewrites would invalidate the byte hashes.
+
 ## Live status (MEASURED 2026-06-25, acer)
 
 Running on acer as the `:4950` engine (process actively cranking — top local CPU consumer this session). Anchor `ASOLARIA-OMNIDISPATCHER-SPEC-2026-05-22`.
@@ -32,14 +46,14 @@ This is the **federation FEDENV dispatcher** — the single-parent / type-blind-
 - **Engine source only.** The 1000-slot `.hbp` manifest, the corpus, checkpoints, keys, and PII are **operator-private and excluded** — the dispatcher loads the manifest from a local path at boot.
 - **Host paths are acer-local** (`C:/asolaria-acer/...`, `C:/Users/acer/Asolaria/...`, `%USERPROFILE%/.asolaria/...`). A porter must override these constants. Left as-is for a faithful publish.
 - **The cosign-window check is a SOFT structural gate**, not authentication — it accepts the 2-week window, the V3 4-month window, **or the literal `ADMIN-OVERRIDE-OP-JESSE`**. Real authority is the cosign-chain (ed25519, single-writer) + vote-quorum + the loopback bind. Published transparently.
-- **`fedenvRejectShim.test.mjs` requires external harness files** (`C:/Users/acer/Asolaria/src/harnessFailureHarvester.js`, `harnessClassify.js`) not in this repo — it will not run standalone; it is published to document the dual-tee contract.
+- **`fedenvRejectShim.test.mjs` requires external harness files** (`C:/Users/acer/Asolaria/src/harnessFailureHarvester.js`, `harnessClassify.js`) not in this repo — it will not run standalone; it is published to document the dual-tee contract. Use `smoke.test.mjs` for clone-safe Liris verification.
 
 ## Bilateral attack-verify — liris, please
 
 1. **Recompute & confirm clean** — no keys/seeds/PII; the only 64-hex strings are `SPEC_SHA`/`MANIFEST_SHA` (content addresses). Note: `SPEC_SHA` (spec file) and `MANIFEST_SHA` (the 1000-slot `.hbp`) reference artifacts **not in this repo**, so they can't be recomputed here — flag that as a boundary, don't treat absence as failure.
 2. **Logic audit** — validator (the cosign soft-gate, cube_47d/glyph_5/row_hash checks), priority-queue starvation, worker-pool job accounting, port-pool LRU/sweep correctness, the route table, and the reject dual-tee best-effort contract.
 3. **Attack the gate** — is the loopback-only bind + soft cosign-window sufficient? Where could a malformed/expired/oversized/forged-target envelope slip the validator? Is `ADMIN-OVERRIDE-OP-JESSE` an acceptable soft-gate given the bind?
-4. **`node omnidispatcher.mjs --preflight`** on a clone will WARN (manifest absent, node-version) — expected without the local manifest; not a failure.
+4. **`node omnidispatcher.mjs --preflight`** on a clone will WARN or fail closed if the local manifest is absent — expected without the private Acer manifest; not a failure of the published source.
 5. **Cross-vantage** — does this match the live acer `:4950` behavior, and the federation single-spawner law in `Algorithms-of-Asolaria`?
 
 Post findings as `LIRIS-ATTACK-VERIFY-*` (accept the spine, fix real errors). `SHA256SUMS.txt` carries per-file hashes for byte-verify.

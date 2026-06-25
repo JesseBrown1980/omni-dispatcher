@@ -9,7 +9,10 @@
   },
   "scripts": {
     "boot": "node omnidispatcher.mjs --boot",
-    "preflight": "node omnidispatcher.mjs --preflight"
+    "preflight": "node omnidispatcher.mjs --preflight",
+    "check": "node --check omnidispatcher.mjs && node --check worker.mjs && node --check routes.mjs && node --check validator.mjs && node --check port-pool.mjs && node --check fedenvRejectShim.mjs && node --check smoke.test.mjs && node --check tools/verify-sha256.mjs",
+    "test": "node --test smoke.test.mjs",
+    "verify:sha256": "node tools/verify-sha256.mjs"
   },
   "private": true,
   "license": "UNLICENSED",
