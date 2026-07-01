@@ -74,4 +74,41 @@ from the result side. The **back end** (`Asolaria-the-after-100-billion-run-…`
 data, decomposes + mints the cubes, and — operator-gated — promotes the geniuses into supervisors/PIDs.
 All gated / E=0 / describe-only — no fire, no cutover without operator authority.
 
+## Prism/Comb 0-loss (2026-07-01) — satellite: the router's comb lanes, formalized
+
+One law, two directions: every prism/comb operation is a **bijection**, and entropy is invariant
+under bijection (`H(f(X)) = H(X)`) — the system re-relates information with **0 loss** and never
+claims compression below Shannon's bound (`E[bits] ≥ H(X)`). **Forward = comb** (lane isolation,
+collision avoidance); **backward = prism** (exact recombination, many→1). This repo is the router
+[1], so here the comb's teeth are the 1000 slots. Four places the law already lives in this code:
+
+- **CRT recombination — why lanes reassemble exactly** `[CANON — math principle]`. For pairwise-
+  coprime `m₁…m_k`, `M = Πmᵢ`: `ℤ_M ≅ ℤ_{m₁} × … × ℤ_{m_k}`. Separate `x ↦ (x mod mᵢ)`; recombine
+  exactly `x = Σᵢ rᵢ·Mᵢ·(Mᵢ⁻¹ mod mᵢ) mod M`, `Mᵢ = M/mᵢ`. The revolver's prime lane
+  (`emitter/pid-chain-revolver.mjs`, `primeAt(i % 1000)`) rides this: prime-indexed lanes are
+  mutually collision-proof AND losslessly reassemblable — forwards = slot isolation, backwards =
+  reconstruction. CRT adds no residue capacity; it relocates information, never creates it.
+- **h_coord Hilbert locality — teeth are traced, not scattered** `[CANON]`. `resolveTarget('pid:Hxxxx')`
+  hits `byHCoord`; the Hilbert trace (`emitter/port-address-emitter.mjs`, `hilbertXY`) is a bijection
+  1D-index ↔ nested address, so adjacent indices land on adjacent addresses — locality preserved
+  through a counter-through-a-bijection, zero information added or lost on the way to a slot.
+- **CATEGORY_PRECEDENCE — the deterministic final backstop** `[MEASURED — in this repo]`. The
+  manifest carries duplicate h_coords (META slots 32/34 vs reserve fractal-spawn); `buildIndices`
+  (`omnidispatcher.mjs`, 2026-05-22 patch) adjudicates by the fixed order
+  `meta > citizen > antigravity > cli > google > daemon-proxy > reserve` instead of silent
+  last-write-wins. A key collision is *expressed and resolved deterministically*, never hidden —
+  the router-side twin of "a lossy step cannot hide in a bijection chain".
+- **Birthday bound — honest sizing of the address space** `[CANON — honest bound]`. `row_hash`/PID
+  = sha256 truncated to 16 hex = 64 bits: collision probability for `M` live envelopes
+  `≈ M²/2⁶⁵` (`M = 10⁶ → ≈ 2.7×10⁻⁸`; full sha256 negligible). A PID/h_coord is a **coordinate**
+  against the slot table / content-addressed store — vast ADDRESSING capacity, **not** lossless
+  infinite compression. That boundary keeps every routing claim true.
+
+Scope: only the 256↔1024 level-transcode rung is **MEASURED** (Q-PRISM `53023b6` — round-trip
+sha256-identical, 5 bytes ⇄ 4 symbols at `lcm(8,10) = 40` bits); the 43+ level ladder is **CANON
+frame**; any further rung is **UNVERIFIED** until its own round-trip proof. Cross-links: Q-PRISM
+proofs `53023b6`/`79e8d63`/`de00aca` · waves-cascades [5] (avoid/cause duality) · what-is-asolaria
+[3] (reductions boundary) · N-Nest (integrity dual) · Metatagging (physics grounding). E=0 — this
+entry describes; nothing fires.
+
 Base: **https://github.com/JesseBrown1980/** · per-link spine nav lives in each repo's `CHAIN.md`.
